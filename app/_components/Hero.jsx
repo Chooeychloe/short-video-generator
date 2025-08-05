@@ -1,10 +1,13 @@
 import { Button } from "@/components/ui/button";
 import React from "react";
+import Authentication from "./Authentication";
 
 function Hero() {
   return (
-    <div className="p-10 flex flex-col items-center justify-center mt-24
-    md:px-20 lg:px-36 xl:px-48">
+    <div
+      className="p-10 flex flex-col items-center justify-center mt-24
+    md:px-20 lg:px-36 xl:px-48"
+    >
       <h2 className="font-extrabold text-6xl text-center">
         Short Video and Reels Generator
       </h2>
@@ -21,10 +24,11 @@ function Hero() {
         <Button size="lg" variant="secondary">
           Explore
         </Button>
-
-        <Button size="lg" variant="outline">
-          Get Started
-        </Button>
+        <Authentication>
+          <Button size="lg" variant="outline">
+            Get Started
+          </Button>
+        </Authentication>
       </div>
     </div>
   );
