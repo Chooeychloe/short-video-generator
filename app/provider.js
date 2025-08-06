@@ -7,44 +7,46 @@ import { AuthContext } from './_context/AuthContext';
 import { ConvexProvider, ConvexReactClient, useMutation } from "convex/react";
 import { api } from '@/convex/_generated/api';
 
-  function Provider({ children }) {
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const CreateUser = useMutation(api.users.CreateNewUser);
+function Provider({ children }) {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const CreateUser = useMutation(api.users.CreateNewUser);
 
-    useEffect(() => {
-      const unsubscribe = onAuthStateChanged(auth, async (user) => {
-        setUser(user);
-        setLoading(false);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      setLoading(false);
 
-        const result = await CreateUser ({
-          name: user?.displayName,
-          email: user?.email,
-          photoURL: user?.photoURL,
-        })
-      });
-      return () => unsubscribe();
-    }, []);
+      const result = await CreateUser({
+        name: user?.displayName,
+        email: user?.email,
+        photoURL: user?.photoURL,
+      })
+      setUser(result);
 
-    return (
-      <div>
-          <AuthContext.Provider value={{ user, loading }}>
-            <NextThemesProvider
-              attribute="class"
-              defaultTheme="dark"
-              enableSystem
-              disableTransitionOnChange
-            >
-              {children}
-            </NextThemesProvider>
-          </AuthContext.Provider>
-      </div>
+    });
+    return () => unsubscribe();
+  }, []);
 
-    );
-  }
+  return (
+    <div>
+      <AuthContext.Provider value={{ user, loading }}>
+        <NextThemesProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </NextThemesProvider>
+      </AuthContext.Provider>
+    </div>
+
+  );
+}
 
 export const useAuthContext = () => {
-  return useContext(AuthContext);
+  const context = useContext(AuthContext);
+  return context;
 };
 
 export default Provider;

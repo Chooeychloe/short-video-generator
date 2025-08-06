@@ -9,7 +9,6 @@ import Link from "next/link";
 
 function Header() {
   const { user, loading } = useAuthContext();
-  console.log("User:" + user);
   return (
     <div className="p-4 shadow-md flex items-center justify-between">
       <div className="flex items-center gap-3">
